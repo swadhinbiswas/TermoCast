@@ -28,6 +28,20 @@ def remove_text(text, pattern):
 
 
 def weather():
+  """
+  Fetches and displays the weather forecast for a specified city.
+  This function retrieves the city name using the `findcity` function,
+  constructs a URL for the weather forecast, and makes an HTTP GET request
+  to fetch the weather data. If the request is successful, it prints the
+  weather forecast. If the request fails, it prints an error message.
+  Note:
+    The function suppresses SSL certificate verification warnings by setting
+    `verify=False` in the `requests.get` call.
+  Exceptions:
+    Prints an error message if the HTTP request fails.
+  Returns:
+    None
+  """
   city = findcity()
   url=f'https://wttr.in/{city}'
   try:
