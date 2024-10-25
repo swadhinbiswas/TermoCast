@@ -7,6 +7,8 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+.pybuild/
+termocast.egg-info/
 .Python
 build/
 develop-eggs/
@@ -25,6 +27,9 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+/debian/.debhelper
+/debian/.debhelper.log
+/debian/files
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
