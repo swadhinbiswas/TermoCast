@@ -60,4 +60,18 @@
 
  
  # Install Using PIP
- 
+
+```bash
+ pip install termocast
+
+```
+or 
+```bash
+ pip3 install termocast
+
+```
+
+
+
+# special Thanks To
+@cubin for wttr.in
