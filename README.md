@@ -1,4 +1,5 @@
 # 🌤️ TermoCast
+[![Visits Badge](https://badges.pufler.dev/visits/swadhinbiswas/TermoCast)](https://github.com/swadhinbiswas/TermoCast)
 
 ## Overview
 
@@ -75,3 +76,8 @@ or
 
 # special Thanks To
 @cubin for wttr.in
+
+
+# Contributors
+[![Contributors Display](https://badges.pufler.dev/contributors/swadhinbiswas/TermoCast/?size=50&padding=5&perRow=10&bots=true)](https://github.com/swadhinbiswas)
+

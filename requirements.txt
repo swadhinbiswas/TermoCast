@@ -1,0 +1,4 @@
+requests
+geocoder
+rich
+typer
