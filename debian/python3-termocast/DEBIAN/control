@@ -1,0 +1,11 @@
+Package: python3-termocast
+Source: termocast
+Version: 0.1.0
+Architecture: all
+Maintainer: Swadhin Biswas <swadhinbiswas.cse@gmailcom>
+Installed-Size: 26
+Depends: python3-requests, python3-rich, python3-typer, python3:any
+Section: python
+Priority: optional
+Homepage: https://termocast.pages.dev
+Description: A  Terminal Application Which Show the Weather Status on Your Machine Terminal of Your current Location Based on your Ip address.

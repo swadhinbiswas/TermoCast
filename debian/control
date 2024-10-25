@@ -1,0 +1,14 @@
+Source: termocast
+Section: python
+Priority: optional
+Maintainer: Swadhin Biswas <swadhinbiswas.cse@gmailcom>
+Build-Depends: debhelper-compat (= 13), dh-python, python3-all
+Standards-Version: 4.5.0
+Homepage: https://termocast.pages.dev
+Vcs-Git: https://github.com/swadhinbiswas/TermoCust.git
+Vcs-Browser: https://github.com/swadhinbiswas/TermoCust
+
+package: python3-termocast
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}
+Description: A  Terminal Application Which Show the Weather Status on Your Machine Terminal of Your current Location Based on your Ip address.
