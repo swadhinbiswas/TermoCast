@@ -3,7 +3,7 @@ TermoCast — Advanced Terminal Dashboard
 Weather • News • Stocks • Crypto • System
 """
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __author__ = "Swadhin Biswas"
 __email__ = "swadhinbiswas.cse@gmail.com"
 __license__ = "MIT"

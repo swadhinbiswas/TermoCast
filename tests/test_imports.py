@@ -1,6 +1,6 @@
 def test_import_termocast():
     import termocast
-    assert termocast.__version__ == "1.0.0"
+    assert termocast.__version__.startswith("1.")
 
 def test_import_services():
     from termocast.services.weather import WeatherService
