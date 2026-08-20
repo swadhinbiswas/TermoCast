@@ -1,3 +1,9 @@
+termocast (1.0.2) unstable; urgency=medium
+
+  * Fix release workflow parsing (remove job-level continue-on-error, fix utf-8).
+
+ -- SWADHIN BISWAS <swadhinbiswas.cse@gmail.com>  Thu, 20 Aug 2026 17:16:00 +0600
+
 termocast (1.0.1) unstable; urgency=medium
 
   * Complete rewrite: Textual TUI, weather/news/stocks/crypto services, Typer CLI, CI/CD, caching.
