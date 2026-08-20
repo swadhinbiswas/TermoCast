@@ -59,21 +59,18 @@ jobs:
           name: release-dist
           path: dist/
       - name: Publish to PyPI (trusted publishing)
-        id: pypi-trusted
         continue-on-error: true
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           verbose: true
       - name: Publish fallback via token
-        if: steps.pypi-trusted.outcome == 'failure' && secrets.PYPI_API_TOKEN != ''
+        if: failure()
+        continue-on-error: true
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
-      - name: Note if skipped
-        if: steps.pypi-trusted.outcome == 'failure' && secrets.PYPI_API_TOKEN == ''
-        run: echo "::warning::PyPI publish skipped -- configure trusted publisher at https://pypi.org/manage/account/publishing/ or set PYPI_API_TOKEN secret"
 
   github-release:
     name: Create GitHub Release
@@ -120,11 +117,12 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y build-essential debhelper dh-python python3-all python3-setuptools
       - name: Build deb
         run: |
-          dpkg-buildpackage -us -uc -b || (echo "::warning::deb build failed, retry with -d"; dpkg-buildpackage -us -uc -b -d || true)
+          dpkg-buildpackage -us -uc -b || echo "::warning::deb build failed"
           ls -lh ../*.deb || echo "no deb produced"
         continue-on-error: true
       - name: Upload deb to release
-        if: hashFiles('../*.deb') != ''
+        if: always()
+        continue-on-error: true
         uses: softprops/action-gh-release@v2
         with:
           files: ../*.deb
