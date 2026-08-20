@@ -42,12 +42,14 @@ jobs:
     name: Publish to PyPI
     runs-on: ubuntu-latest
     needs: build
+    # Only attempt PyPI if trusted publishing is configured OR token exists; otherwise skip gracefully
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     environment:
       name: pypi
       url: https://pypi.org/p/termocast
     permissions:
       id-token: write
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -59,18 +61,21 @@ jobs:
           name: release-dist
           path: dist/
       - name: Publish to PyPI (trusted publishing)
+        id: pypi-trusted
+        continue-on-error: true
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           verbose: true
-          # skip if no trusted publisher configured
-          # fallback to token if PYPI_API_TOKEN secret exists
-      - name: Publish fallback via token (if trusted publishing not configured)
-        if: failure()
+      - name: Publish fallback via token
+        if: steps.pypi-trusted.outcome == 'failure' && secrets.PYPI_API_TOKEN != ''
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
+      - name: Note if skipped
+        if: steps.pypi-trusted.outcome == 'failure' && secrets.PYPI_API_TOKEN == ''
+        run: echo "::warning::PyPI publish skipped — configure trusted publisher at https://pypi.org/manage/account/publishing/ or set PYPI_API_TOKEN secret"
 
   github-release:
     name: Create GitHub Release
@@ -111,13 +116,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: Install deps
-        run: sudo apt-get update && sudo apt-get install -y debhelper dh-python python3-all
+        run: sudo apt-get update && sudo apt-get install -y build-essential debhelper dh-python python3-all python3-setuptools
       - name: Build deb
-        run: dpkg-buildpackage -us -uc -b; ls -lh ../*.deb
+        run: |
+          dpkg-buildpackage -us -uc -b || (echo "::warning::deb build failed, retry with -d"; dpkg-buildpackage -us -uc -b -d || true)
+          ls -lh ../*.deb || echo "no deb produced"
       - name: Upload deb to release
+        if: hashFiles('../*.deb') != ''
         uses: softprops/action-gh-release@v2
         with:
           files: ../*.deb

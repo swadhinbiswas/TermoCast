@@ -84,7 +84,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install debhelper
-        run: sudo apt-get update && sudo apt-get install -y debhelper dh-python python3-all python3-setuptools
+        run: sudo apt-get update && sudo apt-get install -y build-essential debhelper dh-python python3-all python3-setuptools
       - name: Build deb
         run: dpkg-buildpackage -us -uc -b || echo "::warning::deb build failed (non-fatal for CI)"
       - name: List deb
